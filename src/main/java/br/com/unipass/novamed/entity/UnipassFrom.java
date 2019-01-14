@@ -6,17 +6,19 @@ public class UnipassFrom {
 	
 	private String url;
 
-	private String id;
+	private String ticket;
 	
-	public UnipassFrom(String id) {
-		this.id = id;
+	private String mensagem;
+	
+	public UnipassFrom(String ticket) {
+		this.ticket = ticket;
 	}
 	
-	public String getId() {
-		return id;
+	public String getTicket() {
+		return ticket;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setTicket(String id) {
+		this.ticket = id;
 	}
 
 	public void setUnipass(String unipass) {
@@ -32,6 +34,13 @@ public class UnipassFrom {
 	}
 	public String getUrl() {
 		return url;
+	}
+	
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+	public String getMensagem() {
+		return mensagem;
 	}
 
 }

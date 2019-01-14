@@ -32,19 +32,21 @@
 
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100 p-t-85 p-b-20">				
+			<div class="wrap-login100 p-b-20">				
 				 <form:form method="POST" class="login100-form validate-form" action="/unipass-login/validateUnipass" modelAttribute="unipassForm">
 					<!--
 					<span class="login100-form-title p-b-70">
 						Login Unipass NovaMed
 					</span> -->
 					<span class="">
-						<img src="images/bradescosaude.png">
-						<img src="images/novamed.png">
+						<img src="images/bradescosaude.png"/>
+						<img src="images/novamed.png" />
 					</span>					
-					<input type="hidden" name="id" value="${unipassForm.id}" >
+					
+					<input type="hidden" name="id" value="${unipassForm.ticket}" >
+					
 					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Informe a frase Unipass">
-						<input class="input100" type="text" name="unipass">					
+						<input class="input100" type="text" name="unipass" value="${unipassForm.unipass}" />					
 						<span class="focus-input100" data-placeholder="Frase Unipass"></span>
 					</div>
 
@@ -54,7 +56,7 @@
 						</button>
 					</div>
 
-					<ul class="login-more p-t-190">
+					<ul class="login-more p-t-30">
 						 <a href="#" class="txt2">Estou com problemas</a>												
 					</ul>
 				</form:form>

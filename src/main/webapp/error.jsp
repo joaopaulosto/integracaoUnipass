@@ -8,7 +8,7 @@
         <h3>Please enter the correct details</h3>
         <table>
             <tr>
-                <td><a href="employee">Retry</a></td>
+                <td><a href="index">Retry</a></td>
             </tr>
         </table>
     </body>
