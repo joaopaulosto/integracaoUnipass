@@ -40,7 +40,7 @@
 						Frase validada com sucesso! ${frase}
 					</span> 					
 					
-					${id}
+					<input type="hidden" name="ticket" value="${unipassForm.ticket}" >
 
 					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Informe o site para direcionar">
 						<input class="input100" type="text" name="url">

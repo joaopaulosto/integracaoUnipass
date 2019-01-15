@@ -1,7 +1,11 @@
 package br.com.unipass.novamed.entity;
 
-public class UnipassFrom {
+import java.io.Serializable;
+
+public class UnipassForm  implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private String unipass;
 	
 	private String url;
@@ -10,7 +14,11 @@ public class UnipassFrom {
 	
 	private String mensagem;
 	
-	public UnipassFrom(String ticket) {
+	private String ip;
+	
+	private String userName;
+	
+	public UnipassForm(String ticket) {
 		this.ticket = ticket;
 	}
 	
@@ -41,6 +49,20 @@ public class UnipassFrom {
 	}
 	public String getMensagem() {
 		return mensagem;
+	}
+	
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	public String getIp() {
+		return ip;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserName() {
+		return userName;
 	}
 
 }

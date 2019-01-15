@@ -21,7 +21,7 @@ public class LoginUnipassApplication {
 	public JaxWsPortProxyFactoryBean helloWorldWebServiceClient() throws MalformedURLException {
 
 		JaxWsPortProxyFactoryBean domainWS = new JaxWsPortProxyFactoryBean();
-		domainWS.setWsdlDocumentUrl(new URL("http://172.16.41.67:8080/unipass-webservice-mobile/mobilews?wsdl"));
+		domainWS.setWsdlDocumentUrl(new URL("http://172.16.41.67:8080/unipass-webservice-domain/domainws?wsdl"));
 		domainWS.setServiceInterface(DomainWSImpl.class);
 		domainWS.setServiceName("DomainWSImplService");
 		domainWS.setPortName("DomainWSImplPort");
