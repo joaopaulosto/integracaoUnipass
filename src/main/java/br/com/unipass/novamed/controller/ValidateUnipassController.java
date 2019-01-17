@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.unipass.novamed.config.ApplicationConfig;
 import br.com.unipass.novamed.entity.UnipassForm;
 import br.com.unipass.novamed.util.Utils;
 import br.com.unipass.novamed.validator.UnipassValidator;
@@ -28,6 +29,9 @@ public class ValidateUnipassController {
 
 	@Autowired
 	private UnipassValidator unipassValidator;
+	
+	@Autowired
+	private ApplicationConfig applicationConfig;
 	
 	
 	@InitBinder
@@ -59,6 +63,7 @@ public class ValidateUnipassController {
 			unipassForm.setUnipass(StringUtils.EMPTY);
 			return new ModelAndView("index", "unipassForm", unipassForm);
 		} else {
+			unipassForm.setUrl(applicationConfig.getSuccessUrlRedirect());
 			return new ModelAndView("successUnipass", "unipassForm", unipassForm);
 		}
 	}
@@ -68,12 +73,9 @@ public class ValidateUnipassController {
 			ModelMap model, HttpServletRequest request) {
 
 		model.addAttribute("ticket", unipassForm.getTicket());
-
-		String redirectUrl = "http://" + unipassForm.getUrl();
-		if (unipassForm.getTicket() != null) {
-			redirectUrl = redirectUrl + "?ticket=" + unipassForm.getTicket();
-		}
-		return "redirect:" + redirectUrl;
+		return Utils.buildRedirectUrl(unipassForm.getUrl(), unipassForm.getTicket());		
 	}
+	
+	
 
 }

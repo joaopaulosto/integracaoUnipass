@@ -60,19 +60,21 @@
 							Para acessar o sistema pela primeira vez, será necessário realizar o registro do Seu token.</br>
 							Preecha as informações abaixo:							
 							
-							<form:form method="POST" class="login100-form validate-form" action="/unipass-login/addUnipass?ticket=${unipassForm.ticket}" modelAttribute="unipassForm">										
+							<form:form method="POST" class="login100-form validate-form" action="/unipass-login/registerUnipass?ticket=${unipassForm.ticket}" modelAttribute="unipassForm">										
 														
 								<div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate = "Informe seu usuário">
 									<input class="input100" type="text" name="userName" value="${unipassForm.userName}" />					
 									<span class="focus-input100" data-placeholder="Seu usuário"></span>
 								</div>		
+								<div class="m-t-15 m-b-15">
+									<form:errors path="userName" htmlEscape="false" cssClass="text-color-brad-seg" />						
+								</div>						
 								<div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate = "Informe a frase Unipass">
 									<input class="input100" type="text" name="unipass" value="${unipassForm.unipass}" />					
 									<span class="focus-input100" data-placeholder="Frase Domínio NovaMed"></span>
-								</div>		
-											
+								</div>													
 								<div class="m-t-15 m-b-15">
-									<form:errors path="unipass" htmlEscape="false" cssStyle="color: #CC092F" />						
+									<form:errors path="unipass" htmlEscape="false" cssClass="text-color-brad-seg" />						
 								</div>														
 								<div class="container-login100-form-btn">
 									<button class="login100-form-btn">
