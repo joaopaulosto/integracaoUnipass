@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.unipass.novamed.config.ApplicationConfig;
 import br.com.unipass.novamed.entity.UnipassForm;
 import br.com.unipass.novamed.service.UnipassService;
 import br.com.unipass.novamed.util.Utils;
@@ -29,16 +30,25 @@ public class HelpUnipassController {
 	private RegisterUnipassValidator unipassValidator;
 
 	@Autowired
+	private ApplicationConfig appConfig;
+
+	@Autowired
 	private UnipassService unipassService;
 
 	@GetMapping(value = "/" + HELP_VIEW)
-	public ModelAndView showForm(@RequestParam(value = "ticket", required = false) String ticket, Model model) {
-		System.out.println("ticket:" + ticket);
-		return new ModelAndView(HELP_VIEW, "unipassForm", new UnipassForm(ticket));
+	public ModelAndView showForm(@RequestParam(value = "ticket", required = false) String ticket, Model model,
+			HttpServletRequest request) {
+		Utils.persisterTicket(ticket, request);
+		return new ModelAndView(HELP_VIEW, "unipassForm", new UnipassForm());
+	}
+
+	@GetMapping(value = "/recoveryTicket")
+	public String recoverySessionByErrorPage(HttpServletRequest request) {
+		return "index?ticket=" + Utils.getTicket(request);
 	}
 
 	@PostMapping(value = "/registerUnipass")
-	public String regiserUserInDomain(@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm,
+	public String regiserUserInDomain(@RequestParam(value = "ticket", required = false) String ticket, @Valid @ModelAttribute("unipassForm") UnipassForm unipassForm,
 			BindingResult result, ModelMap model, HttpServletRequest request) {
 
 		unipassValidator.validate(unipassForm, result);
@@ -48,23 +58,18 @@ public class HelpUnipassController {
 			model.addAttribute("unipassForm", unipassForm);
 			return HELP_VIEW;
 		} else {
-			if (registerUserInDomain(unipassForm, Utils.getRemoteIpAddress(request))) {
+			try {
+				unipassService.registerUserInDomain(unipassForm.getUnipass(), unipassForm.getUserName(),
+						Utils.getRemoteIpAddress(request));
+				
+				String finalTicket = StringUtils.isEmpty(ticket) ? Utils.getTicket(request) : ticket;
+				
+				return Utils.buildRedirectUrl(appConfig.getSuccessUrlRedirect(), finalTicket);
+			} catch (Exception e) {
+				result.rejectValue("unipass", "unipass.error", e.getMessage());
 				model.addAttribute("unipassForm", unipassForm);
 				return HELP_VIEW;
-			} else {
-				return Utils.buildRedirectUrl(unipassForm.getUrl(), unipassForm.getTicket());
 			}
-
-		}
-
-	}
-	private boolean registerUserInDomain(UnipassForm unipassForm, String ip) {
-		try {
-			unipassService.registerUserInDomain(unipassForm.getUnipass(), unipassForm.getUserName(), ip);
-			return true;
-		} catch (Exception e) {
-			unipassForm.setMensagem("");
-			return false;
 		}
 
 	}

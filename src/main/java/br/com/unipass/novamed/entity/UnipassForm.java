@@ -17,17 +17,10 @@ public class UnipassForm  implements Serializable{
 	
 	private String url;
 
-	private String ticket;
-	
 	private String mensagem;
 	
 	private String ip;
 	
 	private String userName;
-	
-	public UnipassForm(String ticket) {
-		this.ticket = ticket;
-	}
-	
 	
 }

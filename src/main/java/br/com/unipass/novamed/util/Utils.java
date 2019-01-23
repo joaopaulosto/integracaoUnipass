@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.unipass.novamed.entity.UnipassForm;
-
 public class Utils {
 
 	public static String getRemoteIpAddress(HttpServletRequest request) {
@@ -34,6 +32,14 @@ public class Utils {
 			redirectUrl = redirectUrl + "?ticket=" + ticket;
 		}
 		return "redirect:" + redirectUrl;
+	}
+
+	public static void persisterTicket(String ticket, HttpServletRequest request) {
+		request.getSession().setAttribute("ticket", ticket);
+	}
+
+	public static String getTicket(HttpServletRequest request) {
+		return (String)request.getSession().getAttribute("ticket");
 	}
 
 }

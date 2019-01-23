@@ -1,10 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Login Unipass Novamed</title>
-	<meta charset="UTF-8">
+<title>Login Unipass Novamed</title>	
+	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
@@ -34,26 +32,43 @@
 
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100 p-t-85 p-b-20">				
-				 <form:form method="POST" class="login100-form validate-form" action="/unipass-login/redirect" modelAttribute="unipassForm">					
+			<div class="wrap-login100 p-b-20">				
+				 <form:form method="POST" class="login100-form validate-form" action="/unipass-login/validateUnipass?ticket=${param.ticket}" modelAttribute="unipassForm">
+					<!--
 					<span class="login100-form-title p-b-70">
-						Frase validada com sucesso! ${frase}
-					</span> 					
+						Login Unipass NovaMed
+					</span> -->
+					<span class="">
+						<img src="images/bradescosaude.png"/>
+						<img src="images/novamed.png" />
+					</span>					
 					
-					<input type="hidden" name="ticket" value="${unipassForm.ticket}" >
-
-					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Informe o site para direcionar">
-						<input class="input100" type="text" name="url" value="${unipassForm.url}" >
-						<span class="focus-input100" data-placeholder="Url"></span>
+<%-- 					<input type="hidden" name="ticket" value="${unipassForm.ticket}" > --%>
+					
+					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Informe a frase Unipass">
+						<input class="input100" type="text" name="unipass" value="${unipassForm.unipass}" />					
+						<span class="focus-input100" data-placeholder="Frase Unipass"></span>
+					</div>		
+								
+					<div class="m-t-15 m-b-15">
+						<form:errors path="unipass" htmlEscape="false" cssStyle="color: #CC092F" />						
 					</div>
-
+										
+				
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Redirecionar
+							Logar
 						</button>
-					</div>
-					
+					</div>					
 				</form:form>
+				
+				<form:form method="GET" modelAttribute="unipassForm">
+					<ul class="login-more p-t-30">
+						 <a href="/unipass-login/help?ticket=${param.ticket}" class="txt2">Estou com problemas</a>												
+<!-- 						 <a href="/unipass-login/help" class="txt2">Estou com problemas</a> -->
+					</ul>
+				</form:form>
+				
 			</div>
 		</div>
 	</div>

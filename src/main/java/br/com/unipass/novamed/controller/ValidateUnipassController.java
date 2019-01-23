@@ -29,25 +29,25 @@ public class ValidateUnipassController {
 
 	@Autowired
 	private UnipassValidator unipassValidator;
-	
+
 	@Autowired
 	private ApplicationConfig applicationConfig;
-	
-	
+
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
-		//binder.setValidator(unipassValidator);
+		// binder.setValidator(unipassValidator);
 	}
 
 	@GetMapping(value = "/index")
-	public ModelAndView showForm(@RequestParam(value = "ticket", required = false) String ticket, Model model) {
-		System.out.println("ticket:" + ticket);
-		return new ModelAndView("index", "unipassForm", new UnipassForm(ticket));
+	public ModelAndView showForm(@RequestParam(value = "ticket", required = false) String ticket, Model model,
+			HttpServletRequest request) {
+		Utils.persisterTicket(ticket, request);
+		return new ModelAndView("index", "unipassForm", new UnipassForm());
 	}
 
 	@GetMapping(value = "/")
 	public ModelAndView showFormIndex() {
-		return new ModelAndView("index", "unipassForm", new UnipassForm(null));
+		return new ModelAndView("index", "unipassForm", new UnipassForm());
 	}
 
 	@PostMapping(value = "/validateUnipass")
@@ -69,13 +69,14 @@ public class ValidateUnipassController {
 	}
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.POST)
-	public String redirectUrl(@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result,
-			ModelMap model, HttpServletRequest request) {
+	public String redirectUrl(@RequestParam(value = "ticket", required = false) String ticket,
+			@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 
-		model.addAttribute("ticket", unipassForm.getTicket());
-		return Utils.buildRedirectUrl(unipassForm.getUrl(), unipassForm.getTicket());		
+		String finalTicket = StringUtils.isEmpty(ticket) ? Utils.getTicket(request) : ticket;
+
+		model.addAttribute("ticket", Utils.getTicket(request));
+		return Utils.buildRedirectUrl(unipassForm.getUrl(), finalTicket);
 	}
-	
-	
 
 }
