@@ -27,5 +27,8 @@ public class ApplicationConfig implements Serializable {
 
 	@Value("${success.url.redirect}")
 	private String successUrlRedirect;
+	
+	@Value("${bypass.validate.unipass}")
+	private boolean bypassValidate;
 
 }

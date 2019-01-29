@@ -26,6 +26,9 @@ public class UnipassServiceImpl implements UnipassService {
 
 	@Override
 	public String validateUnipass(String unipass, String ip) {
+		
+		if(appConfig.isBypassValidate()) return null;
+		
 		ValidateUnipassResponse r;
 		Integer codDominio = Integer.parseInt(this.appConfig.getDomainCodeUnipass());
 		try {
@@ -45,6 +48,8 @@ public class UnipassServiceImpl implements UnipassService {
 	@Override
 	public void registerUserInDomain(String unipass, String userName, String ip) throws Exception {
 
+		if(appConfig.isBypassValidate()) return;
+		
 		ValidateUnipassResponse responseUnipass = unipassDomainWS.registerUserInDomain(ip,
 				Integer.parseInt(appConfig.getDomainCodeUnipass()), unipass, userName, StringUtils.EMPTY);
 		if (responseUnipass != null && responseUnipass.getReturnCode() == 0) {

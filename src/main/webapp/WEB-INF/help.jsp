@@ -74,7 +74,8 @@
 									<span class="focus-input100" data-placeholder="Frase Domínio NovaMed"></span>
 								</div>													
 								<div class="m-t-15 m-b-15">
-									<form:errors path="unipass" htmlEscape="false" cssClass="text-color-brad-seg" />						
+<%-- 									<form:errors path="unipass" htmlEscape="false" cssClass="text-color-brad-seg" />	 --%>
+									<form:errors path="unipass" htmlEscape="false" cssStyle="color: #CC092F" />					
 								</div>														
 								<div class="container-login100-form-btn">
 									<button class="login100-form-btn">
