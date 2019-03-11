@@ -31,7 +31,7 @@ public class ValidateUnipassController {
 	private UnipassValidator unipassValidator;
 
 	@Autowired
-	private ApplicationConfig applicationConfig;
+	private ApplicationConfig appConfig;
 
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
@@ -51,8 +51,9 @@ public class ValidateUnipassController {
 	}
 
 	@PostMapping(value = "/validateUnipass")
-	public ModelAndView submit(@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result,
-			ModelMap model, HttpServletRequest request) {
+	public ModelAndView submit(@RequestParam(value = "ticket", required = false) String ticket,
+			@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 
 		// Seta o ip de cliente
 		unipassForm.setIp(Utils.getRemoteIpAddress(request));
@@ -63,20 +64,26 @@ public class ValidateUnipassController {
 			unipassForm.setUnipass(StringUtils.EMPTY);
 			return new ModelAndView("index", "unipassForm", unipassForm);
 		} else {
-			unipassForm.setUrl(applicationConfig.getSuccessUrlRedirect());
-			return new ModelAndView("successUnipass", "unipassForm", unipassForm);
+			// unipassForm.setUrl(applicationConfig.getSuccessUrlRedirect());
+			// return new ModelAndView("successUnipass", "unipassForm", unipassForm);
+			return createRedirectExternalUrl(unipassForm, model, request);
 		}
 	}
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.POST)
-	public String redirectUrl(@RequestParam(value = "ticket", required = false) String ticket,
+	public ModelAndView redirectUrl(@RequestParam(value = "ticket", required = false) String ticket,
 			@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result, ModelMap model,
 			HttpServletRequest request) {
 
-		String finalTicket = StringUtils.isEmpty(ticket) ? Utils.getTicket(request) : ticket;
+		return createRedirectExternalUrl(unipassForm, model, request);
+	}
 
-		model.addAttribute("ticket", Utils.getTicket(request));
-		return Utils.buildRedirectUrl(unipassForm.getUrl(), finalTicket);
+	private ModelAndView createRedirectExternalUrl(UnipassForm unipassForm, ModelMap model,
+			HttpServletRequest request) {
+
+		String buildRedirectUrl = Utils.buildRedirectUrl(appConfig.getProtocolGestaoClinica(),
+				appConfig.getUrlGestaoClinica(), appConfig.getServerIpGestaoClinica());
+		return new ModelAndView(buildRedirectUrl);
 	}
 
 }

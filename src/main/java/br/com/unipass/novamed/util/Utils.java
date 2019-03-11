@@ -1,5 +1,7 @@
 package br.com.unipass.novamed.util;
 
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,12 +27,11 @@ public class Utils {
 	 * @param unipassForm
 	 * @return
 	 */
-	public static String buildRedirectUrl(String url, String ticket) {
-		String redirectUrl = !url.startsWith("http") ? "http://" : StringUtils.EMPTY;
-		redirectUrl += url;
-		if (ticket != null) {
-			redirectUrl = redirectUrl + "?ticket=" + ticket;
-		}
+	public static String buildRedirectUrl(String protocol, String url, String ip) {
+		
+		long time = new Timestamp(System.currentTimeMillis()).getTime();
+		
+		String redirectUrl = String.format("%s://%s/%s%d", protocol, ip, url.trim(), time);		
 		return "redirect:" + redirectUrl;
 	}
 

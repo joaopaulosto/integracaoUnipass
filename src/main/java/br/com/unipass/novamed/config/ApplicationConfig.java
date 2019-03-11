@@ -24,11 +24,17 @@ public class ApplicationConfig implements Serializable {
 
 	@Value("${domain.code.unipass}")
 	private String domainCodeUnipass;
-
-	@Value("${success.url.redirect}")
-	private String successUrlRedirect;
 	
 	@Value("${bypass.validate.unipass}")
 	private boolean bypassValidate;
+	
+	@Value("${url.gestao.clinicas}")
+	private String urlGestaoClinica;
+		
+	@Value("${server.ip.gestao.clinicas}")
+	private String serverIpGestaoClinica;
+		
+	@Value("${protocol.http.gestao.clinicas}")
+	private String protocolGestaoClinica;
 
 }

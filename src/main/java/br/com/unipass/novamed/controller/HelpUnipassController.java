@@ -48,8 +48,9 @@ public class HelpUnipassController {
 	}
 
 	@PostMapping(value = "/registerUnipass")
-	public String regiserUserInDomain(@RequestParam(value = "ticket", required = false) String ticket, @Valid @ModelAttribute("unipassForm") UnipassForm unipassForm,
-			BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String regiserUserInDomain(@RequestParam(value = "ticket", required = false) String ticket,
+			@Valid @ModelAttribute("unipassForm") UnipassForm unipassForm, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 
 		unipassValidator.validate(unipassForm, result);
 
@@ -59,12 +60,14 @@ public class HelpUnipassController {
 			return HELP_VIEW;
 		} else {
 			try {
+				String remoteIpAddress = Utils.getRemoteIpAddress(request);
 				unipassService.registerUserInDomain(unipassForm.getUnipass(), unipassForm.getUserName(),
-						Utils.getRemoteIpAddress(request));
-				
-				String finalTicket = StringUtils.isEmpty(ticket) ? Utils.getTicket(request) : ticket;
-				
-				return Utils.buildRedirectUrl(appConfig.getSuccessUrlRedirect(), finalTicket);
+						remoteIpAddress);
+				// String finalTicket = StringUtils.isEmpty(ticket) ? Utils.getTicket(request) :
+				// ticket;
+
+				return Utils.buildRedirectUrl(appConfig.getProtocolGestaoClinica(), appConfig.getUrlGestaoClinica(),
+						appConfig.getServerIpGestaoClinica());
 			} catch (Exception e) {
 				result.rejectValue("unipass", "unipass.error", e.getMessage());
 				model.addAttribute("unipassForm", unipassForm);
