@@ -40,8 +40,7 @@ public class LoginUnipassApplication {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:messages");
-		//messageSource.setCacheSeconds(10); // reload messages every 10 seconds
+		// messageSource.setCacheSeconds(10); // reload messages every 10 seconds
 		return messageSource;
 	}
-
 }
